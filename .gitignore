@@ -76,3 +76,11 @@ docs/_build/
 # just files for manual testing
 sample.py
 async_sample.py
+
+# test dbs
+testdb/
+async_testdb/
+db/
+
+# db files
+*.scdb

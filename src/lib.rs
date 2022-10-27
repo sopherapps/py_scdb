@@ -1,14 +1,14 @@
-use pyo3::prelude::*;
+mod store;
+mod async_store;
 
-/// Formats the sum of two numbers as string.
-#[pyfunction]
-fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
-    Ok((a + b).to_string())
-}
+use pyo3::prelude::*;
+use crate::async_store::AsyncStore;
+use crate::store::Store;
 
 /// A Python module implemented in Rust.
 #[pymodule]
 fn py_scdb(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
+    m.add_class::<Store>()?;
+    m.add_class::<AsyncStore>()?;
     Ok(())
 }
