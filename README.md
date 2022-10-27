@@ -1,4 +1,4 @@
-# scdb
+# py_scdb
 
 ![CI](https://github.com/sopherapps/py_scdb/actions/workflows/CI.yml/badge.svg)
 
