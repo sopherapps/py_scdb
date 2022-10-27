@@ -1,0 +1,36 @@
+[build-system]
+requires = ["maturin>=0.13,<0.14"]
+build-backend = "maturin"
+
+[project]
+name = "py_scdb"
+version = "0.0.1"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+authors = [
+    {name="Martin Ahindura ", email = "team.sopherapps@gmail.com"}
+]
+description = "A very simple and fast key-value store but persisting data to disk, with a 'localStorage-like' API for python."
+license_files.paths = ["LICENSE-MIT", "LICENSE-APACHE"]
+keywords = ["key-value-store", "cache", "disk-cache", "database", "localStorage"]
+readme = "README.md"
+[project.optional-dependencies]
+test = [
+    "pytest>=7.2.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-lazy-fixture>=0.6.3",
+    "pytest-asyncio>=0.20.1"
+]
+
+[project.urls]
+homepage = "https://github.com/sopherapps/py_scdb"
+documentation = "https://github.com/sopherapps/py_scdb"
+repository = "https://github.com/sopherapps/py_scdb"
+changelog = "https://github.com/sopherapps/py_scdb/blob/master/CHANGELOG.md"
+
+

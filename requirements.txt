@@ -1,0 +1,5 @@
+maturin==0.13.6
+pytest
+pytest-benchmark
+pytest-lazy-fixture
+pytest-asyncio
