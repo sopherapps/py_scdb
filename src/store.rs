@@ -1,5 +1,4 @@
 use crate::macros::{bytes_to_string, io_to_py_result};
-use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 
 #[pyclass(subclass)]

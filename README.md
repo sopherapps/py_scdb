@@ -202,14 +202,6 @@ developed.
 
 For other programming languages, see the main [README](https://github.com/sopherapps/scdb/tree/master/README.md#bindings)
 
-
-### TODO:
-
-- [ ] Add sync support.
-- [ ] Add async support
-- [ ] Add tests
-- [ ] Add benchmarks
-
 ### How to Test
 - Clone the repo and enter its root folder
 
@@ -260,14 +252,41 @@ OR the summary
 pytest test/test_benchmarks.py --benchmark-columns=mean,min,max --benchmark-name=short 
 ```
 
-```shell
-# asynchronous API
-pytest test/test_async_benchmarks.py --benchmark-columns=mean,min,max --benchmark-name=short
-```
-
 ## Benchmarks
 
-TBD
+On an average PC.
+
+### Synchronous
+
+```
+---------------------------------------------------- benchmark: 23 tests -----------------------------------------------------
+Name (time in ns)                                         Mean                        Min                        Max          
+------------------------------------------------------------------------------------------------------------------------------
+benchmark_get[sync_store-oi]                          791.6189 (1.02)            696.0000 (1.0)          82,662.0000 (3.66)   
+benchmark_get[sync_store-salut]                       785.4837 (1.01)            705.0000 (1.01)         26,959.0000 (1.19)   
+benchmark_get[sync_store-hey]                         784.9184 (1.01)            706.0000 (1.01)         49,103.0000 (2.17)   
+benchmark_get[sync_store-bonjour]                     788.7490 (1.01)            707.0000 (1.02)         38,032.0000 (1.68)   
+benchmark_get[sync_store-mulimuta]                    813.3644 (1.04)            710.0000 (1.02)         43,976.0000 (1.95)   
+benchmark_get[sync_store-hola]                        778.5139 (1.0)             717.0000 (1.03)         22,595.0000 (1.0)    
+benchmark_get[sync_store-hi]                          799.0443 (1.03)            720.0000 (1.03)         41,808.0000 (1.85)   
+benchmark_delete[sync_store-oi]                     3,621.6866 (4.65)          3,411.0000 (4.90)         79,191.0000 (3.50)   
+benchmark_delete[sync_store-mulimuta]               3,692.2154 (4.74)          3,452.0000 (4.96)         65,033.0000 (2.88)   
+benchmark_delete[sync_store-hi]                     3,672.9944 (4.72)          3,464.0000 (4.98)         53,222.0000 (2.36)   
+benchmark_delete[sync_store-hola]                   3,662.2025 (4.70)          3,484.0000 (5.01)         53,862.0000 (2.38)   
+benchmark_delete[sync_store-hey]                    3,692.2129 (4.74)          3,486.0000 (5.01)         59,462.0000 (2.63)   
+benchmark_delete[sync_store-bonjour]                3,733.3740 (4.80)          3,489.0000 (5.01)         56,492.0000 (2.50)   
+benchmark_delete[sync_store-salut]                  3,703.2190 (4.76)          3,496.0000 (5.02)         67,755.0000 (3.00)   
+benchmark_set[sync_store-salut-French]             10,501.6776 (13.49)         8,502.0000 (12.22)     3,728,135.0000 (165.00) 
+benchmark_set[sync_store-hola-Spanish]             10,070.0885 (12.94)         8,619.0000 (12.38)       103,351.0000 (4.57)   
+benchmark_set[sync_store-bonjour-French]           11,022.1169 (14.16)         8,646.0000 (12.42)     8,880,446.0000 (393.03) 
+benchmark_set[sync_store-hi-English]               11,689.5849 (15.02)         8,658.0000 (12.44)    21,890,731.0000 (968.83) 
+benchmark_set[sync_store-oi-Portuguese]             9,977.9048 (12.82)         8,733.0000 (12.55)        71,176.0000 (3.15)   
+benchmark_set[sync_store-hey-English]              10,487.5903 (13.47)         8,831.0000 (12.69)     2,436,681.0000 (107.84) 
+benchmark_set[sync_store-mulimuta-Runyoro]          9,909.8211 (12.73)         9,273.0000 (13.32)       101,878.0000 (4.51)   
+benchmark_clear[sync_store]                        99,848.0430 (128.25)       81,451.0000 (117.03)      320,574.0000 (14.19)  
+benchmark_compact[sync_store]                  27,771,153.0357 (>1000.0)  22,487,888.0000 (>1000.0)  36,291,919.0000 (>1000.0)
+------------------------------------------------------------------------------------------------------------------------------
+```
 
 ## Acknowledgement
 
