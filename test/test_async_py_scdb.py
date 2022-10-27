@@ -21,7 +21,7 @@ async def test_set_without_ttl(store: AsyncStore):
 @pytest.mark.parametrize("store", async_store_fixture)
 async def test_set_with_ttl(store: AsyncStore):
     """Saves the key-value pairs for upto ttl seconds"""
-    ttl = 2
+    ttl = 1
 
     # set first 3 without ttl
     for (k, v) in records[:3]:
@@ -31,7 +31,7 @@ async def test_set_with_ttl(store: AsyncStore):
     for (k, v) in records[3:]:
         await store.set(k=k, v=v, ttl=ttl)
 
-    time.sleep(ttl)
+    time.sleep(ttl * 2)
 
     # check the first 3 that had no ttl
     for (k, v) in records[:3]:
@@ -106,30 +106,26 @@ async def test_clear(store: AsyncStore):
 async def test_compact(store: AsyncStore):
     """Reduces the size of the database file if some keys have expired or were deleted"""
     ttl = 1
-    initial_file_size = get_async_db_file_size()
     # add those that will expire after one second
     await fill_async_store(store=store, data=records[:3], ttl=ttl)
     await fill_async_store(store=store, data=records[3:])
+
     # delete the fourth
     await store.delete(k=records[3][0])
-    intermediate_file_size = get_async_db_file_size()
+    pre_compaction_file_size = get_async_db_file_size()
 
-    time.sleep(ttl)
+    time.sleep(ttl * 2)
 
     await store.compact()
-    final_file_size = get_async_db_file_size()
+    post_compaction_file_size = get_async_db_file_size()
 
-    assert final_file_size < intermediate_file_size
-    assert initial_file_size == final_file_size
+    assert post_compaction_file_size < pre_compaction_file_size
 
     #  the store is still working as expected
     # the expired are not available
-    for (k, _) in records[:3]:
+    for (k, _) in records[:4]:
         assert (await store.get(k=k)) is None
-
-    # the deleted are not available
-    assert (await store.get(k=records[3][0])) is None
 
     # the rest are available
     for (k, v) in records[4:]:
-        assert (await store.get(k=k)) is None
+        assert (await store.get(k=k)) == v

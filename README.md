@@ -235,7 +235,7 @@ pip install -r requirements.txt
 maturin develop
 ```
 
-  For optimized build use:
+For optimized build use:
 
 ```shell
 maturin develop -r

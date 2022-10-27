@@ -1,15 +1,9 @@
-from os import path
-
 import pytest
 import pytest_asyncio
 from pytest_lazyfixture import lazy_fixture
 
 from py_scdb import Store, AsyncStore
-
-_root_directory = path.dirname(path.dirname(__file__))
-
-_store_path = path.join(_root_directory, "testdb")
-_async_store_path = path.join(_root_directory, "async_testdb")
+from test.utils import _store_path, _async_store_path
 
 records = [
     ("hey", "English"),
@@ -29,19 +23,19 @@ updates = [
     ("mulimuta", "Aliguma"),
 ]
 
-store_fixture = [lazy_fixture("store")]
-records_fixture = [lazy_fixture(("store", k, v)) for (k, v) in records]
-updates_fixture = [lazy_fixture(("store", k, v)) for (k, v) in updates]
-keys_fixture = [lazy_fixture(("store", k)) for k in keys]
+store_fixture = [lazy_fixture("sync_store")]
+records_fixture = [(lazy_fixture("sync_store"), k, v) for (k, v) in records]
+updates_fixture = [(lazy_fixture("sync_store"), k, v) for (k, v) in updates]
+keys_fixture = [(lazy_fixture("sync_store"), k) for k in keys]
 
 async_store_fixture = [lazy_fixture("async_store")]
-async_records_fixture = [lazy_fixture(("async_store", k, v)) for (k, v) in records]
-async_updates_fixture = [lazy_fixture(("async_store", k, v)) for (k, v) in updates]
-async_keys_fixture = [lazy_fixture(("async_store", k)) for k in keys]
+async_records_fixture = [(lazy_fixture("async_store"), k, v) for (k, v) in records]
+async_updates_fixture = [(lazy_fixture("async_store"), k, v) for (k, v) in updates]
+async_keys_fixture = [(lazy_fixture("async_store"), k) for k in keys]
 
 
 @pytest.fixture()
-def store():
+def sync_store():
     """The key-value store"""
     _store = Store(store_path=_store_path)
     yield _store

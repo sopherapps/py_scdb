@@ -1,7 +1,12 @@
+import os
+from os import path
 from typing import List, Tuple, Optional
 
 from py_scdb import AsyncStore, Store
-from test.conftest import _store_path, _async_store_path
+
+_root_directory = path.dirname(path.dirname(__file__))
+_store_path = path.join(_root_directory, "testdb")
+_async_store_path = path.join(_root_directory, "async_testdb")
 
 
 async def fill_async_store(store: AsyncStore, data: List[Tuple[str, str]], ttl: Optional[int] = None):
@@ -18,9 +23,11 @@ def fill_store(store: Store, data: List[Tuple[str, str]], ttl: Optional[int] = N
 
 def get_db_file_size() -> int:
     """Returns the size of the database file"""
-    return os.stat(_store_path).st_size
+    db_file_path = os.path.join(_store_path, "dump.scdb")
+    return os.stat(db_file_path).st_size
 
 
 def get_async_db_file_size() -> int:
     """Returns the size of the database file"""
-    return os.stat(_async_store_path).st_size
+    db_file_path = os.path.join(_async_store_path, "dump.scdb")
+    return os.stat(db_file_path).st_size

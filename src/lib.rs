@@ -1,9 +1,10 @@
-mod store;
 mod async_store;
+mod macros;
+mod store;
 
-use pyo3::prelude::*;
 use crate::async_store::AsyncStore;
 use crate::store::Store;
+use pyo3::prelude::*;
 
 /// A Python module implemented in Rust.
 #[pymodule]

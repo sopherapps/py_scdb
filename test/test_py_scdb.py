@@ -19,7 +19,7 @@ def test_set_without_ttl(store: Store):
 @pytest.mark.parametrize("store", store_fixture)
 def test_set_with_ttl(store):
     """Saves the key-value pairs for upto ttl seconds"""
-    ttl = 2
+    ttl = 1
 
     # set first 3 without ttl
     for (k, v) in records[:3]:
@@ -29,7 +29,7 @@ def test_set_with_ttl(store):
     for (k, v) in records[3:]:
         store.set(k=k, v=v, ttl=ttl)
 
-    time.sleep(ttl)
+    time.sleep(ttl * 2)
 
     # check the first 3 that had no ttl
     for (k, v) in records[:3]:
@@ -98,30 +98,27 @@ def test_compact(store: Store):
     """Reduces the size of the database file if some keys have expired or were deleted"""
     ttl = 1
 
-    initial_file_size = get_db_file_size()
+    fill_store(store=store, data=records[3:])
     # add those that will expire after one second
     fill_store(store=store, data=records[:3], ttl=ttl)
-    fill_store(store=store, data=records[3:])
+
     # delete the fourth
     store.delete(k=records[3][0])
-    intermediate_file_size = get_db_file_size()
+    pre_compaction_file_size = get_db_file_size()
 
-    time.sleep(ttl)
+    time.sleep(ttl * 2)
 
     store.compact()
-    final_file_size = get_db_file_size()
 
-    assert final_file_size < intermediate_file_size
-    assert initial_file_size == final_file_size
+    post_compaction_file_size = get_db_file_size()
+
+    assert post_compaction_file_size < pre_compaction_file_size
 
     #  the store is still working as expected
-    # the expired are not available
-    for (k, _) in records[:3]:
+    # the expired and the deleted are not available
+    for (k, _) in records[:4]:
         assert store.get(k=k) is None
-
-    # the deleted are not available
-    assert store.get(k=records[3][0]) is None
 
     # the rest are available
     for (k, v) in records[4:]:
-        assert store.get(k=k) is None
+        assert store.get(k=k) == v
