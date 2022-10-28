@@ -49,8 +49,8 @@ class Store:
         """
         Inserts or updates the key-value pair
 
-        :param k: the key
-        :param v: the value
+        :param k: the key as a UTF-8 string
+        :param v: the value as a UTF-8 string
         :param ttl: the number of seconds the key-value pair should be persisted for
         """
 
@@ -58,7 +58,7 @@ class Store:
         """
         Gets the value associated with the given key
 
-        :param k: the key
+        :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
 
@@ -66,7 +66,7 @@ class Store:
         """
         Removes the key-value for the given key from the store
 
-        :param k: the key
+        :param k: the key as a UTF-8 string
         """
 
     def clear(self) -> None:
@@ -97,7 +97,7 @@ class Store:
 
 class AsyncStore:
     """
-    The key-value store that saves key-value pairs on disk.
+    The key-value store that saves key-value pairs (as a UTF-8 string) on disk.
     This handles its operations asynchronously.
 
     Store behaves like a HashMap that saves keys and value as strings
@@ -144,8 +144,8 @@ class AsyncStore:
         """
         Inserts or updates the key-value pair
 
-        :param k: the key
-        :param v: the value
+        :param k: the key as a UTF-8 string
+        :param v: the value as a UTF-8 string
         :param ttl: the number of seconds the key-value pair should be persisted for
         """
 
@@ -153,7 +153,7 @@ class AsyncStore:
         """
         Gets the value associated with the given key
 
-        :param k: the key
+        :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
 
@@ -161,7 +161,7 @@ class AsyncStore:
         """
         Removes the key-value for the given key from the store
 
-        :param k: the key
+        :param k: the key as a UTF-8 string
         """
 
     async def clear(self) -> None:

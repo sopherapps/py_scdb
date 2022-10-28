@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/sopherapps/py_scdb/actions/workflows/CI.yml/badge.svg)
 
-A very simple and fast key-value store but persisting data to disk, with a "localStorage-like" API.
+A very simple and fast key-value *(as UTF-8 strings)* store but persisting data to disk, with a "localStorage-like" API.
 
 This is the python version of the original [scdb](https://github.com/sopherapps/scdb)
 
@@ -43,7 +43,8 @@ pip install py_scdb
 ```python
 if __name__ == "__main__":
     from py_scdb import Store
-    
+
+    # These need to be UTF-8 strings
     records = [
         ("hey", "English"),
         ("hi", "English"),
@@ -117,15 +118,16 @@ pip install py_scdb
 ```python
 import asyncio
 from py_scdb import AsyncStore
-    
+
+# These need to be UTF-8 strings
 records = [
-        ("hey", "English"),
-        ("hi", "English"),
-        ("salut", "French"),
-        ("bonjour", "French"),
-        ("hola", "Spanish"),
-        ("oi", "Portuguese"),
-        ("mulimuta", "Runyoro"),
+    ("hey", "English"),
+    ("hi", "English"),
+    ("salut", "French"),
+    ("bonjour", "French"),
+    ("hola", "Spanish"),
+    ("oi", "Portuguese"),
+    ("mulimuta", "Runyoro"),
 ]
 keys = [k for (k, _) in records]
 
