@@ -1,6 +1,6 @@
 # py_scdb
 
-![CI](https://github.com/sopherapps/py_scdb/actions/workflows/CI.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/py_scdb.svg)](https://badge.fury.io/py/py_scdb) ![CI](https://github.com/sopherapps/py_scdb/actions/workflows/CI.yml/badge.svg)
 
 A very simple and fast key-value *(as UTF-8 strings)* store but persisting data to disk, with a "localStorage-like" API.
 
@@ -312,3 +312,5 @@ Copyright (c) 2017-present PyO3 Project and Contributors
 > -- Matthew 11: 28-30
 
 All glory be to God.
+
+<a href="https://www.buymeacoffee.com/martinahinJ" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
