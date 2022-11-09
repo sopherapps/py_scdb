@@ -6,7 +6,7 @@ A very simple and fast key-value *(as UTF-8 strings)* store but persisting data 
 
 This is the python version of the original [scdb](https://github.com/sopherapps/scdb)
 
-**scdb may not be production-ready yet. It works, quite well but it requires more vigorous testing.**
+**scdb may not be production-ready yet. It works, quite well but it requires more rigorous testing.**
 
 ## Purpose
 
