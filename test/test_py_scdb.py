@@ -1,10 +1,11 @@
 """Tests for Store"""
+
 import time
 
 import pytest
 
 from py_scdb import Store
-from test.conftest import store_fixture, records
+from test.conftest import store_fixture, records, search_records
 from test.utils import fill_store, get_db_file_size
 
 
@@ -59,6 +60,144 @@ def test_get_existing_key(store: Store):
     fill_store(store=store, data=records)
     for (k, v) in records:
         assert store.get(k=k) == v
+
+
+@pytest.mark.parametrize("store", store_fixture)
+def test_search_without_pagination(store: Store):
+    """Returns the list of key-values whose keys start with given search term"""
+    test_data = [
+        ("f", [("foo", "eng"), ("fore", "span"), ("food", "lug")]),
+        ("fo", [("foo", "eng"), ("fore", "span"), ("food", "lug")]),
+        ("foo", [("foo", "eng"), ("food", "lug")]),
+        ("food", [("food", "lug")]),
+        ("for", [("fore", "span")]),
+        ("b", [("bar", "port"), ("band", "nyoro")]),
+        ("ba", [("bar", "port"), ("band", "nyoro")]),
+        ("bar", [("bar", "port")]),
+        ("ban", [("band", "nyoro")]),
+        ("band", [("band", "nyoro")]),
+        ("p", [("pig", "dan")]),
+        ("pi", [("pig", "dan")]),
+        ("pig", [("pig", "dan")]),
+        ("pigg", []),
+        ("bandana", []),
+        ("bare", []),
+    ]
+
+    fill_store(store=store, data=search_records)
+    for (term, expected) in test_data:
+        assert store.search(term=term, skip=0, limit=0) == expected
+
+
+@pytest.mark.parametrize("store", store_fixture)
+def test_search_with_pagination(store: Store):
+    """Returns a slice of the list of key-values whose keys start with given search term, basing on skip and limit"""
+    test_data = [
+        ("fo", 0, 0, [("foo", "eng"), ("fore", "span"), ("food", "lug")]),
+        ("fo", 0, 8, [("foo", "eng"), ("fore", "span"), ("food", "lug")]),
+        ("fo", 1, 8, [("fore", "span"), ("food", "lug")]),
+        ("fo", 1, 0, [("fore", "span"), ("food", "lug")]),
+        ("fo", 0, 2, [("foo", "eng"), ("fore", "span")]),
+        ("fo", 1, 2, [("fore", "span"), ("food", "lug")]),
+        ("fo", 0, 1, [("foo", "eng")]),
+        ("fo", 2, 1, [("food", "lug")]),
+        ("fo", 1, 1, [("fore", "span")]),
+    ]
+
+    fill_store(store=store, data=search_records)
+    for (term, skip, limit, expected) in test_data:
+        assert store.search(term=term, skip=skip, limit=limit) == expected
+
+
+@pytest.mark.parametrize("store", store_fixture)
+def test_search_after_expiration(store: Store):
+    """Returns only non-expired key-values"""
+    records_to_expire = [search_records[0], search_records[2], search_records[3]]
+    fill_store(store=store, data=search_records, ttl=None)
+    fill_store(store=store, data=records_to_expire, ttl=1)
+
+    test_data = [
+        ("f", [("fore", "span")]),
+        ("fo", [("fore", "span")]),
+        ("foo", []),
+        ("for", [("fore", "span")]),
+        ("b", [("band", "nyoro")]),
+        ("ba", [("band", "nyoro")]),
+        ("bar", []),
+        ("ban", [("band", "nyoro")]),
+        ("band", [("band", "nyoro")]),
+        ("p", [("pig", "dan")]),
+        ("pi", [("pig", "dan")]),
+        ("pig", [("pig", "dan")]),
+        ("pigg", []),
+        ("food", []),
+        ("bandana", []),
+        ("bare", []),
+    ]
+
+    # wait for some items to expire
+    time.sleep(2)
+
+    for (term, expected) in test_data:
+        assert store.search(term=term, skip=0, limit=0) == expected
+
+
+@pytest.mark.parametrize("store", store_fixture)
+def test_search_after_delete(store: Store):
+    """Returns only existing key-values"""
+    keys_to_delete = ["foo", "food", "bar", "band"]
+    fill_store(store=store, data=search_records)
+    test_data = [
+        ("f", [("fore", "span")]),
+        ("fo", [("fore", "span")]),
+        ("foo", []),
+        ("for", [("fore", "span")]),
+        ("b", []),
+        ("ba", []),
+        ("bar", []),
+        ("ban", []),
+        ("band", []),
+        ("p", [("pig", "dan")]),
+        ("pi", [("pig", "dan")]),
+        ("pig", [("pig", "dan")]),
+        ("pigg", []),
+        ("food", []),
+        ("bandana", []),
+        ("bare", []),
+    ]
+
+    for k in keys_to_delete:
+        store.delete(k)
+
+    for (term, expected) in test_data:
+        assert store.search(term=term, skip=0, limit=0) == expected
+
+
+@pytest.mark.parametrize("store", store_fixture)
+def test_search_after_clear(store: Store):
+    """Returns an empty list when search is called after clear"""
+    terms = [
+        "f",
+        "fo",
+        "foo",
+        "for",
+        "b",
+        "ba",
+        "bar",
+        "ban",
+        "band",
+        "p",
+        "pi",
+        "pig",
+        "pigg",
+        "food",
+        "bandana",
+        "bare",
+    ]
+    fill_store(store=store, data=search_records)
+    store.clear()
+    for term in terms:
+        assert store.search(term=term, skip=0, limit=0) == []
 
 
 @pytest.mark.parametrize("store", store_fixture)

@@ -55,7 +55,8 @@ People *love* thorough bug reports. I'm not even kidding.
 
 ## Use a Consistent Coding Style
 
-* Use [rustfmt](https://github.com/rust-lang/rustfmt)
+* Use [rustfmt](https://github.com/rust-lang/rustfmt) for the rust parts
+* Use [black](https://github.com/psf/black) for the python parts
 
 ## License
 

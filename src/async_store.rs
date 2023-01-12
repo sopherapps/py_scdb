@@ -1,5 +1,4 @@
 use crate::macros::{acquire_lock, bytes_to_string, io_to_py_result, py_none};
-use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use std::sync::{Arc, Mutex};
 
@@ -16,7 +15,8 @@ impl AsyncStore {
         max_keys = "None",
         redundant_blocks = "None",
         pool_capacity = "None",
-        compaction_interval = "None"
+        compaction_interval = "None",
+        max_index_key_len = "None"
     )]
     #[new]
     pub fn new(
@@ -25,6 +25,7 @@ impl AsyncStore {
         redundant_blocks: Option<u16>,
         pool_capacity: Option<usize>,
         compaction_interval: Option<u32>,
+        max_index_key_len: Option<u32>,
     ) -> PyResult<Self> {
         let db = io_to_py_result!(scdb::Store::new(
             store_path,
@@ -32,6 +33,7 @@ impl AsyncStore {
             redundant_blocks,
             pool_capacity,
             compaction_interval,
+            max_index_key_len,
         ))?;
         Ok(Self {
             db: Arc::new(Mutex::new(db)),
@@ -81,6 +83,31 @@ impl AsyncStore {
                         Ok(Python::with_gil(|py| v.into_py(py)))
                     }
                 }
+            }),
+        )
+    }
+
+    /// Searches for key-values whose key start with the given `term`.
+    ///
+    /// In order to do pagination, we use `skip` to skip the first `skip` records
+    /// and `limit` to return not more than the given number of items
+    pub fn search<'a>(&mut self, py: Python<'a>, term: &str, skip: u64, limit: u64) -> PyResult<&'a PyAny>  {
+        let locals = pyo3_asyncio::async_std::get_current_locals(py)?;
+        let db = self.db.clone();
+        let term = term.to_owned();
+
+        pyo3_asyncio::async_std::future_into_py_with_locals(
+            py,
+            locals.clone(),
+            pyo3_asyncio::async_std::scope(locals, async move {
+                let mut db = acquire_lock!(db)?;
+                let res = db.search(term.as_bytes(), skip, limit);
+                let res: Vec<(Vec<u8>, Vec<u8>)> = io_to_py_result!(res)?;
+                res.into_iter().map(|(k, v)| {
+                    let k = bytes_to_string!(k)?;
+                    let v = bytes_to_string!(v)?;
+                    Ok((k, v))
+                }).collect::<PyResult<Vec<(String, String)>>>()
             }),
         )
     }

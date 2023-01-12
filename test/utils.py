@@ -9,7 +9,9 @@ store_path = path.join(_root_directory, "testdb")
 async_store_path = path.join(_root_directory, "async_testdb")
 
 
-async def fill_async_store(store: AsyncStore, data: List[Tuple[str, str]], ttl: Optional[int] = None):
+async def fill_async_store(
+    store: AsyncStore, data: List[Tuple[str, str]], ttl: Optional[int] = None
+):
     """Fills the async store with records"""
     for (key, value) in data:
         await store.set(k=key, v=value, ttl=ttl)

@@ -14,7 +14,8 @@ impl Store {
         max_keys = "None",
         redundant_blocks = "None",
         pool_capacity = "None",
-        compaction_interval = "None"
+        compaction_interval = "None",
+        max_index_key_len = "None"
     )]
     #[new]
     pub fn new(
@@ -23,6 +24,7 @@ impl Store {
         redundant_blocks: Option<u16>,
         pool_capacity: Option<usize>,
         compaction_interval: Option<u32>,
+        max_index_key_len: Option<u32>,
     ) -> PyResult<Self> {
         let db = io_to_py_result!(scdb::Store::new(
             store_path,
@@ -30,6 +32,7 @@ impl Store {
             redundant_blocks,
             pool_capacity,
             compaction_interval,
+            max_index_key_len,
         ))?;
         Ok(Self { db })
     }
@@ -51,6 +54,20 @@ impl Store {
                 Ok(v.into_py(py))
             }
         }
+    }
+
+    /// Searches for key-values whose key start with the given `term`.
+    ///
+    /// In order to do pagination, we use `skip` to skip the first `skip` records
+    /// and `limit` to return not more than the given number of items
+    pub fn search(&mut self, term: &str, skip: u64, limit: u64) -> PyResult<Vec<(String, String)>> {
+        let res = self.db.search(term.as_bytes(), skip, limit);
+        let res: Vec<(Vec<u8>, Vec<u8>)> = io_to_py_result!(res)?;
+        res.into_iter().map(|(k, v)| {
+            let k = bytes_to_string!(k)?;
+            let v = bytes_to_string!(v)?;
+            Ok((k, v))
+        }).collect()
     }
 
     /// Deletes the key-value for the given key

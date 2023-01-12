@@ -22,10 +22,35 @@ updates = [
     ("oi", "Ronaldo"),
     ("mulimuta", "Aliguma"),
 ]
+search_records = [
+    ("foo", "eng"),
+    ("fore", "span"),
+    ("food", "lug"),
+    ("bar", "port"),
+    ("band", "nyoro"),
+    ("pig", "dan"),
+]
 
 store_fixture = [lazy_fixture("sync_store")]
 records_fixture = [(lazy_fixture("sync_store"), k, v) for (k, v) in records]
 keys_fixture = [(lazy_fixture("sync_store"), k) for k in keys]
+search_terms_fixture = [
+    (lazy_fixture("sync_store"), term)
+    for term in [
+        "f",
+        "fo",
+        "foo",
+        "for",
+        "b",
+        "ba",
+        "bar",
+        "ban",
+        "pigg",
+        "p",
+        "pi",
+        "pig",
+    ]
+]
 
 async_store_fixture = [lazy_fixture("async_store")]
 
@@ -44,4 +69,3 @@ async def async_store():
     _store = AsyncStore(store_path=async_store_path)
     yield _store
     await _store.clear()
-

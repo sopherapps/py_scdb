@@ -1,5 +1,4 @@
-from typing import Optional
-
+from typing import Optional, List, Tuple
 
 class Store:
     """
@@ -37,14 +36,14 @@ class Store:
                                 Default: 3600s (1 hour)
     """
 
-    def __init__(self,
-                 store_path: str,
-                 max_keys: Optional[int] = None,
-                 redundant_blocks: Optional[int] = None,
-                 pool_capacity: Optional[int] = None,
-                 compaction_interval: Optional[int] = None,
-                 ) -> None: ...
-
+    def __init__(
+        self,
+        store_path: str,
+        max_keys: Optional[int] = None,
+        redundant_blocks: Optional[int] = None,
+        pool_capacity: Optional[int] = None,
+        compaction_interval: Optional[int] = None,
+    ) -> None: ...
     def set(self, k: str, v: str, ttl: Optional[int] = None) -> None:
         """
         Inserts or updates the key-value pair
@@ -53,7 +52,6 @@ class Store:
         :param v: the value as a UTF-8 string
         :param ttl: the number of seconds the key-value pair should be persisted for
         """
-
     def get(self, k: str) -> Optional[str]:
         """
         Gets the value associated with the given key
@@ -61,19 +59,25 @@ class Store:
         :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
+    def search(self, term: str, skip: int, limit: int) -> List[Tuple[str, str]]:
+        """
+        Finds all key-values whose keys start with the substring `term`.
 
+        :param term: the starting substring to check all keys against
+        :param skip: the number of the first matched key-value pairs to skip
+        :param limit: the maximum number of records to return at any one given time
+        :return: the list of key-value pairs whose key starts with the `term`
+        """
     def delete(self, k: str) -> None:
         """
         Removes the key-value for the given key from the store
 
         :param k: the key as a UTF-8 string
         """
-
     def clear(self) -> None:
         """
         Removes all data in the store
         """
-
     def compact(self) -> None:
         """
         Manually removes dangling key-value pairs in the database file.
@@ -93,7 +97,6 @@ class Store:
 
         This is a very expensive operation so use it sparingly.
         """
-
 
 class AsyncStore:
     """
@@ -132,14 +135,14 @@ class AsyncStore:
                                 Default: 3600s (1 hour)
     """
 
-    def __init__(self,
-                 store_path: str,
-                 max_keys: Optional[int] = None,
-                 redundant_blocks: Optional[int] = None,
-                 pool_capacity: Optional[int] = None,
-                 compaction_interval: Optional[int] = None,
-                 ) -> None: ...
-
+    def __init__(
+        self,
+        store_path: str,
+        max_keys: Optional[int] = None,
+        redundant_blocks: Optional[int] = None,
+        pool_capacity: Optional[int] = None,
+        compaction_interval: Optional[int] = None,
+    ) -> None: ...
     async def set(self, k: str, v: str, ttl: Optional[int] = None) -> None:
         """
         Inserts or updates the key-value pair
@@ -148,7 +151,6 @@ class AsyncStore:
         :param v: the value as a UTF-8 string
         :param ttl: the number of seconds the key-value pair should be persisted for
         """
-
     async def get(self, k: str) -> Optional[str]:
         """
         Gets the value associated with the given key
@@ -156,19 +158,25 @@ class AsyncStore:
         :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
+    async def search(self, term: str, skip: int, limit: int) -> List[Tuple[str, str]]:
+        """
+        Finds all key-values whose keys start with the substring `term`.
 
+        :param term: the starting substring to check all keys against
+        :param skip: the number of the first matched key-value pairs to skip
+        :param limit: the maximum number of records to return at any one given time
+        :return: the list of key-value pairs whose key starts with the `term`
+        """
     async def delete(self, k: str) -> None:
         """
         Removes the key-value for the given key from the store
 
         :param k: the key as a UTF-8 string
         """
-
     async def clear(self) -> None:
         """
         Removes all data in the store
         """
-
     async def compact(self) -> None:
         """
         Manually removes dangling key-value pairs in the database file.

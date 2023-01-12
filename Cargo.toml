@@ -10,6 +10,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.17", features = ["extension-module"] }
-scdb = "0.0"
+scdb = "0.1"
 pyo3-asyncio = { version = "0.17", features = ["attributes", "async-std-runtime"] }
 async-std = "1.12"
