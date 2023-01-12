@@ -61,7 +61,9 @@ if __name__ == "__main__":
         max_keys=1000000, 
         redundant_blocks=1, 
         pool_capacity=10, 
-        compaction_interval=1800)
+        compaction_interval=1800,
+        max_index_key_len=3,
+    )
     
     # inserting without ttl
     for (k, v) in records[:3]:
@@ -86,6 +88,14 @@ if __name__ == "__main__":
     for k in keys:
         v = store.get(k=k)
         print(f"Key: {k}, Value: {v}")
+
+    # searching without pagination
+    results = store.search(term="h")
+    print(f"Search 'h' (no pagination):\n{results}\n")
+
+    # searching with pagination
+    results = store.search(term="h", skip=1, limit=2)
+    print(f"Search 'h' (skip=1, limit=2):\n{results}\n")
     
     # deleting
     for k in keys[:3]:
@@ -137,7 +147,9 @@ async def run_async_example():
         max_keys=1000000, 
         redundant_blocks=1, 
         pool_capacity=10, 
-        compaction_interval=1800)
+        compaction_interval=1800,
+        max_index_key_len=3,
+    )
     
     # inserting without ttl
     for (k, v) in records[:3]:
@@ -162,6 +174,14 @@ async def run_async_example():
     for k in keys:
         v = await store.get(k=k)
         print(f"Key: {k}, Value: {v}")
+
+    # searching without pagination
+    results = await store.search(term="h")
+    print(f"Search 'h' (no pagination):\n{results}\n")
+
+    # searching with pagination
+    results = await store.search(term="h", skip=1, limit=2)
+    print(f"Search 'h' (skip=1, limit=2):\n{results}\n")
     
     # deleting
     for k in keys[:3]:
@@ -196,6 +216,8 @@ folder of the [rust scdb](https://github.com/sopherapps/scdb) to get up to speed
 
 - [database file format](https://github.com/sopherapps/scdb/tree/master/docs/DB_FILE_FORMAT.md)
 - [how it works](https://github.com/sopherapps/scdb/tree/master/docs/HOW_IT_WORKS.md)
+- [inverted index file format](https://github.com/sopherapps/scdb/tree/master/docs/INVERTED_INDEX_FILE_FORMAT.md)
+- [how the search works](https://github.com/sopherapps/scdb/tree/master/docs/HOW_INVERTED_INDEX_WORKS.md)
 
 ## Bindings
 
