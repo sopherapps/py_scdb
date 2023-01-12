@@ -278,38 +278,62 @@ pytest test/test_benchmarks.py --benchmark-columns=mean,min,max --benchmark-name
 
 ## Benchmarks
 
-On an average PC.
+On an average PC (17Core, 16 GB RAM)
 
 ### Synchronous
 
 ```
----------------------------------------------------- benchmark: 23 tests -----------------------------------------------------
-Name (time in ns)                                         Mean                        Min                        Max          
-------------------------------------------------------------------------------------------------------------------------------
-benchmark_get[sync_store-oi]                          791.6189 (1.02)            696.0000 (1.0)          82,662.0000 (3.66)   
-benchmark_get[sync_store-salut]                       785.4837 (1.01)            705.0000 (1.01)         26,959.0000 (1.19)   
-benchmark_get[sync_store-hey]                         784.9184 (1.01)            706.0000 (1.01)         49,103.0000 (2.17)   
-benchmark_get[sync_store-bonjour]                     788.7490 (1.01)            707.0000 (1.02)         38,032.0000 (1.68)   
-benchmark_get[sync_store-mulimuta]                    813.3644 (1.04)            710.0000 (1.02)         43,976.0000 (1.95)   
-benchmark_get[sync_store-hola]                        778.5139 (1.0)             717.0000 (1.03)         22,595.0000 (1.0)    
-benchmark_get[sync_store-hi]                          799.0443 (1.03)            720.0000 (1.03)         41,808.0000 (1.85)   
-benchmark_delete[sync_store-oi]                     3,621.6866 (4.65)          3,411.0000 (4.90)         79,191.0000 (3.50)   
-benchmark_delete[sync_store-mulimuta]               3,692.2154 (4.74)          3,452.0000 (4.96)         65,033.0000 (2.88)   
-benchmark_delete[sync_store-hi]                     3,672.9944 (4.72)          3,464.0000 (4.98)         53,222.0000 (2.36)   
-benchmark_delete[sync_store-hola]                   3,662.2025 (4.70)          3,484.0000 (5.01)         53,862.0000 (2.38)   
-benchmark_delete[sync_store-hey]                    3,692.2129 (4.74)          3,486.0000 (5.01)         59,462.0000 (2.63)   
-benchmark_delete[sync_store-bonjour]                3,733.3740 (4.80)          3,489.0000 (5.01)         56,492.0000 (2.50)   
-benchmark_delete[sync_store-salut]                  3,703.2190 (4.76)          3,496.0000 (5.02)         67,755.0000 (3.00)   
-benchmark_set[sync_store-salut-French]             10,501.6776 (13.49)         8,502.0000 (12.22)     3,728,135.0000 (165.00) 
-benchmark_set[sync_store-hola-Spanish]             10,070.0885 (12.94)         8,619.0000 (12.38)       103,351.0000 (4.57)   
-benchmark_set[sync_store-bonjour-French]           11,022.1169 (14.16)         8,646.0000 (12.42)     8,880,446.0000 (393.03) 
-benchmark_set[sync_store-hi-English]               11,689.5849 (15.02)         8,658.0000 (12.44)    21,890,731.0000 (968.83) 
-benchmark_set[sync_store-oi-Portuguese]             9,977.9048 (12.82)         8,733.0000 (12.55)        71,176.0000 (3.15)   
-benchmark_set[sync_store-hey-English]              10,487.5903 (13.47)         8,831.0000 (12.69)     2,436,681.0000 (107.84) 
-benchmark_set[sync_store-mulimuta-Runyoro]          9,909.8211 (12.73)         9,273.0000 (13.32)       101,878.0000 (4.51)   
-benchmark_clear[sync_store]                        99,848.0430 (128.25)       81,451.0000 (117.03)      320,574.0000 (14.19)  
-benchmark_compact[sync_store]                  27,771,153.0357 (>1000.0)  22,487,888.0000 (>1000.0)  36,291,919.0000 (>1000.0)
-------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------ benchmark: 47 tests -------------------------------------------------------
+Name (time in ns)                                           Mean                         Min                         Max          
+----------------------------------------------------------------------------------------------------------------------------------
+benchmark_get[sync_store-hey]                           800.4672 (1.03)             698.0000 (1.0)           59,185.0000 (1.48)   
+benchmark_get[sync_store-oi]                            776.5698 (1.0)              699.0000 (1.00)          39,861.0000 (1.0)    
+benchmark_get[sync_store-salut]                         785.0628 (1.01)             702.0000 (1.01)          49,960.0000 (1.25)   
+benchmark_get[sync_store-bonjour]                       780.4937 (1.01)             703.0000 (1.01)          71,929.0000 (1.80)   
+benchmark_get[sync_store-mulimuta]                      783.5682 (1.01)             705.0000 (1.01)          50,234.0000 (1.26)   
+benchmark_get[sync_store-hi]                            790.7354 (1.02)             709.0000 (1.02)          70,327.0000 (1.76)   
+benchmark_get[sync_store-hola]                          802.1952 (1.03)             721.0000 (1.03)          61,532.0000 (1.54)   
+benchmark_paginated_search[sync_store-for]            6,962.4849 (8.97)           6,547.0000 (9.38)          56,507.0000 (1.42)   
+benchmark_paginated_search[sync_store-pigg]           6,919.7214 (8.91)           6,556.0000 (9.39)         130,593.0000 (3.28)   
+benchmark_paginated_search[sync_store-bar]            7,079.0014 (9.12)           6,556.0000 (9.39)          86,028.0000 (2.16)   
+benchmark_paginated_search[sync_store-pi]             6,936.8665 (8.93)           6,556.0000 (9.39)         167,335.0000 (4.20)   
+benchmark_search[sync_store-pigg]                     6,902.7711 (8.89)           6,613.0000 (9.47)          61,975.0000 (1.55)   
+benchmark_paginated_search[sync_store-pig]            7,028.6412 (9.05)           6,643.0000 (9.52)          89,304.0000 (2.24)   
+benchmark_paginated_search[sync_store-ban]            7,234.7422 (9.32)           6,653.0000 (9.53)          82,575.0000 (2.07)   
+benchmark_paginated_search[sync_store-p]              7,027.5200 (9.05)           6,688.0000 (9.58)          58,940.0000 (1.48)   
+benchmark_search[sync_store-for]                     10,294.3237 (13.26)          9,821.0000 (14.07)         71,856.0000 (1.80)   
+benchmark_search[sync_store-p]                       10,391.7488 (13.38)          9,822.0000 (14.07)        111,787.0000 (2.80)   
+benchmark_search[sync_store-ban]                     10,403.6132 (13.40)          9,831.0000 (14.08)         89,734.0000 (2.25)   
+benchmark_search[sync_store-pig]                     10,374.8678 (13.36)          9,841.0000 (14.10)         60,577.0000 (1.52)   
+benchmark_search[sync_store-pi]                      10,380.7388 (13.37)          9,941.0000 (14.24)        108,986.0000 (2.73)   
+benchmark_search[sync_store-bar]                     10,449.2485 (13.46)          9,983.0000 (14.30)         71,575.0000 (1.80)   
+benchmark_paginated_search[sync_store-fo]            12,587.1956 (16.21)         12,075.0000 (17.30)         69,118.0000 (1.73)   
+benchmark_paginated_search[sync_store-ba]            13,841.9919 (17.82)         12,089.0000 (17.32)     22,140,639.0000 (555.45) 
+benchmark_paginated_search[sync_store-f]             12,743.9164 (16.41)         12,150.0000 (17.41)        167,326.0000 (4.20)   
+benchmark_paginated_search[sync_store-b]             12,762.3290 (16.43)         12,185.0000 (17.46)        141,532.0000 (3.55)   
+benchmark_paginated_search[sync_store-foo]           12,808.0472 (16.49)         12,268.0000 (17.58)        160,061.0000 (4.02)   
+benchmark_delete[sync_store-oi]                      21,704.5624 (27.95)         13,880.0000 (19.89)        112,458.0000 (2.82)   
+benchmark_delete[sync_store-hi]                      20,088.1860 (25.87)         14,064.0000 (20.15)         93,398.0000 (2.34)   
+benchmark_delete[sync_store-mulimuta]                21,373.7075 (27.52)         14,105.0000 (20.21)         64,670.0000 (1.62)   
+benchmark_delete[sync_store-salut]                   21,230.0633 (27.34)         14,236.0000 (20.40)        111,376.0000 (2.79)   
+benchmark_delete[sync_store-hey]                     19,834.3945 (25.54)         14,298.0000 (20.48)         81,824.0000 (2.05)   
+benchmark_delete[sync_store-hola]                    21,709.5685 (27.96)         14,315.0000 (20.51)      9,488,572.0000 (238.04) 
+benchmark_delete[sync_store-bonjour]                 21,215.8223 (27.32)         14,406.0000 (20.64)         76,129.0000 (1.91)   
+benchmark_search[sync_store-ba]                      15,359.4292 (19.78)         14,754.0000 (21.14)        127,285.0000 (3.19)   
+benchmark_search[sync_store-b]                       15,462.2251 (19.91)         14,840.0000 (21.26)         74,957.0000 (1.88)   
+benchmark_search[sync_store-foo]                     15,673.4764 (20.18)         14,889.0000 (21.33)         77,673.0000 (1.95)   
+benchmark_search[sync_store-f]                       20,645.8552 (26.59)         19,583.0000 (28.06)         83,335.0000 (2.09)   
+benchmark_search[sync_store-fo]                      20,593.4482 (26.52)         19,716.0000 (28.25)        114,361.0000 (2.87)   
+benchmark_set[sync_store-hi-English]                 26,811.3686 (34.53)         24,591.0000 (35.23)        102,322.0000 (2.57)   
+benchmark_set[sync_store-oi-Portuguese]              26,792.9735 (34.50)         24,691.0000 (35.37)        105,970.0000 (2.66)   
+benchmark_set[sync_store-salut-French]               34,000.6656 (43.78)         31,847.0000 (45.63)        114,291.0000 (2.87)   
+benchmark_set[sync_store-hola-Spanish]               34,219.5426 (44.06)         31,857.0000 (45.64)        103,374.0000 (2.59)   
+benchmark_set[sync_store-bonjour-French]             34,491.8102 (44.42)         32,046.0000 (45.91)        123,111.0000 (3.09)   
+benchmark_set[sync_store-mulimuta-Runyoro]           33,995.6793 (43.78)         32,332.0000 (46.32)        117,633.0000 (2.95)   
+benchmark_set[sync_store-hey-English]                34,103.0846 (43.92)         32,513.0000 (46.58)        107,059.0000 (2.69)   
+benchmark_clear[sync_store]                         168,770.7111 (217.33)       128,008.0000 (183.39)       471,408.0000 (11.83)  
+benchmark_compact[sync_store]                   106,328,709.5000 (>1000.0)  103,646,207.0000 (>1000.0)  108,741,183.0000 (>1000.0)
+----------------------------------------------------------------------------------------------------------------------------------
 ```
 
 ## Acknowledgement

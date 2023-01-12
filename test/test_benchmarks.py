@@ -2,7 +2,14 @@
 
 import pytest
 
-from test.conftest import records_fixture, keys_fixture, records, store_fixture
+from test.conftest import (
+    records_fixture,
+    keys_fixture,
+    records,
+    store_fixture,
+    search_records,
+    search_terms_fixture,
+)
 from test.utils import fill_store
 
 
@@ -17,6 +24,20 @@ def test_benchmark_get(benchmark, store, k):
     """Benchmarks the get operation"""
     fill_store(store=store, data=records)
     benchmark(store.get, k=k)
+
+
+@pytest.mark.parametrize("store, term", search_terms_fixture)
+def test_benchmark_search(benchmark, store, term):
+    """Benchmarks the get operation"""
+    fill_store(store=store, data=search_records)
+    benchmark(store.search, term=term, skip=0, limit=0)
+
+
+@pytest.mark.parametrize("store, term", search_terms_fixture)
+def test_benchmark_paginated_search(benchmark, store, term):
+    """Benchmarks the get operation"""
+    fill_store(store=store, data=search_records)
+    benchmark(store.search, term=term, skip=1, limit=1)
 
 
 @pytest.mark.parametrize("store, k", keys_fixture)
