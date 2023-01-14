@@ -59,7 +59,9 @@ class Store:
         :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
-    def search(self, term: str, skip: int, limit: int) -> List[Tuple[str, str]]:
+    def search(
+        self, term: str, skip: Optional[int] = None, limit: Optional[int] = None
+    ) -> List[Tuple[str, str]]:
         """
         Finds all key-values whose keys start with the substring `term`.
 
@@ -158,7 +160,9 @@ class AsyncStore:
         :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
-    async def search(self, term: str, skip: int, limit: int) -> List[Tuple[str, str]]:
+    async def search(
+        self, term: str, skip: Optional[int] = None, limit: Optional[int] = None
+    ) -> List[Tuple[str, str]]:
         """
         Finds all key-values whose keys start with the substring `term`.
 

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.1] - 2023-01-14
+
+### Added
+
+### Changed
+
+- Updated the stub file for the `search()` method.
+
+### Fixed
+
 ## [0.1.0] - 2023-01-12
 
 ### Added
