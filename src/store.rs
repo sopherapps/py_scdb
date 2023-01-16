@@ -15,7 +15,7 @@ impl Store {
         redundant_blocks = "None",
         pool_capacity = "None",
         compaction_interval = "None",
-        max_index_key_len = "None"
+        is_search_enabled = "false"
     )]
     #[new]
     pub fn new(
@@ -24,7 +24,7 @@ impl Store {
         redundant_blocks: Option<u16>,
         pool_capacity: Option<usize>,
         compaction_interval: Option<u32>,
-        max_index_key_len: Option<u32>,
+        is_search_enabled: bool,
     ) -> PyResult<Self> {
         let db = io_to_py_result!(scdb::Store::new(
             store_path,
@@ -32,7 +32,7 @@ impl Store {
             redundant_blocks,
             pool_capacity,
             compaction_interval,
-            max_index_key_len,
+            is_search_enabled,
         ))?;
         Ok(Self { db })
     }

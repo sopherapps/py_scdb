@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-01-16
+
+### Added
+
+### Changed
+
+- Changed the `Store()` and `AsyncStore()` signatures, replacing `max_index_key_len` option with `is_search_enabled`.
+- Permanently set the maximum index key length to 3
+- Changed benchmarks to compare operations when search is enabled to when search is disabled.
+
 ## [0.1.1] - 2023-01-14
 
 ### Added

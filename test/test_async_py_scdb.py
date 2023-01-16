@@ -4,7 +4,12 @@ import time
 import pytest
 
 from py_scdb import AsyncStore
-from test.conftest import async_store_fixture, records, search_records
+from test.conftest import (
+    async_store_fixture,
+    records,
+    search_records,
+    async_searchable_store_fixture,
+)
 from test.utils import fill_async_store, get_async_db_file_size
 
 
@@ -96,6 +101,15 @@ async def test_get_non_existing_key(store: AsyncStore):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("store", async_store_fixture)
+async def test_search_disabled(store: AsyncStore):
+    """Raises exception when a search-disabled store's search method is called"""
+    await fill_async_store(store=store, data=search_records)
+    with pytest.raises(Exception):
+        await store.search(term="f", skip=0, limit=0)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("store", async_searchable_store_fixture)
 async def test_search_without_pagination(store: AsyncStore):
     """Returns the list of key-values whose keys start with given search term"""
     test_data = [
@@ -123,7 +137,7 @@ async def test_search_without_pagination(store: AsyncStore):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("store", async_store_fixture)
+@pytest.mark.parametrize("store", async_searchable_store_fixture)
 async def test_search_with_pagination(store: AsyncStore):
     """Returns a slice of the list of key-values whose keys start with given search term, basing on skip and limit"""
     test_data = [
@@ -144,7 +158,7 @@ async def test_search_with_pagination(store: AsyncStore):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("store", async_store_fixture)
+@pytest.mark.parametrize("store", async_searchable_store_fixture)
 async def test_search_after_expiration(store: AsyncStore):
     """Returns only non-expired key-values"""
     records_to_expire = [search_records[0], search_records[2], search_records[3]]
@@ -178,7 +192,7 @@ async def test_search_after_expiration(store: AsyncStore):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("store", async_store_fixture)
+@pytest.mark.parametrize("store", async_searchable_store_fixture)
 async def test_search_after_delete(store: AsyncStore):
     """Returns only existing key-values"""
     keys_to_delete = ["foo", "food", "bar", "band"]
@@ -210,7 +224,7 @@ async def test_search_after_delete(store: AsyncStore):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("store", async_store_fixture)
+@pytest.mark.parametrize("store", async_searchable_store_fixture)
 async def test_search_after_clear(store: AsyncStore):
     """Returns an empty list when search is called after clear"""
     terms = [
