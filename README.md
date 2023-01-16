@@ -25,6 +25,8 @@ Of course to make it a little more appealing, it has some extra features like:
 - Time-to-live (TTL) where a key-value pair expires after a given time
 - Non-blocking reads from separate processes, and threads.
 - Fast Sequential writes to the store, queueing any writes from multiple processes and threads.
+- Optional searching of keys that begin with a given subsequence. This option is turned on when `scdb::new()` is called.
+  Note: **When searching is enabled, `delete`, `get`, `compact`, `clear` become considerably slower.**
 
 ## Dependencies
 
@@ -62,7 +64,7 @@ if __name__ == "__main__":
         redundant_blocks=1, 
         pool_capacity=10, 
         compaction_interval=1800,
-        max_index_key_len=3,
+        is_search_enabled=True,
     )
     
     # inserting without ttl
@@ -148,7 +150,7 @@ async def run_async_example():
         redundant_blocks=1, 
         pool_capacity=10, 
         compaction_interval=1800,
-        max_index_key_len=3,
+        is_search_enabled=True,
     )
     
     # inserting without ttl
@@ -273,7 +275,7 @@ OR the summary
 
 ```shell
 # synchronous API
-pytest test/test_benchmarks.py --benchmark-columns=mean,min,max --benchmark-name=short 
+pytest test/test_benchmarks.py --benchmark-columns=mean,min,max --benchmark-name=short --benchmark-sort=NAME
 ```
 
 ## Benchmarks

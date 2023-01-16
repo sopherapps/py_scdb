@@ -643,7 +643,7 @@ dependencies = [
 
 [[package]]
 name = "py_scdb"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
  "async-std",
  "pyo3",
@@ -786,9 +786,9 @@ dependencies = [
 
 [[package]]
 name = "scdb"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe2879d89c7450edf01522a9846be87fa3f396044b3da32bd38de0ae8f51ad8c"
+checksum = "2bceeadc4e5c75bd27b3825e34b93c0e1633b739a7ed7ffff5e0e604e0600ad0"
 dependencies = [
  "clokwerk",
  "libc",

@@ -5,7 +5,12 @@ import time
 import pytest
 
 from py_scdb import Store
-from test.conftest import store_fixture, records, search_records
+from test.conftest import (
+    store_fixture,
+    records,
+    search_records,
+    searchable_store_fixture,
+)
 from test.utils import fill_store, get_db_file_size
 
 
@@ -63,6 +68,14 @@ def test_get_existing_key(store: Store):
 
 
 @pytest.mark.parametrize("store", store_fixture)
+def test_search_disabled(store: Store):
+    """Raises exception when a search-disabled store's search method is called"""
+    fill_store(store=store, data=search_records)
+    with pytest.raises(Exception):
+        store.search(term="f", skip=0, limit=0)
+
+
+@pytest.mark.parametrize("store", searchable_store_fixture)
 def test_search_without_pagination(store: Store):
     """Returns the list of key-values whose keys start with given search term"""
     test_data = [
@@ -89,7 +102,7 @@ def test_search_without_pagination(store: Store):
         assert store.search(term=term, skip=0, limit=0) == expected
 
 
-@pytest.mark.parametrize("store", store_fixture)
+@pytest.mark.parametrize("store", searchable_store_fixture)
 def test_search_with_pagination(store: Store):
     """Returns a slice of the list of key-values whose keys start with given search term, basing on skip and limit"""
     test_data = [
@@ -109,7 +122,7 @@ def test_search_with_pagination(store: Store):
         assert store.search(term=term, skip=skip, limit=limit) == expected
 
 
-@pytest.mark.parametrize("store", store_fixture)
+@pytest.mark.parametrize("store", searchable_store_fixture)
 def test_search_after_expiration(store: Store):
     """Returns only non-expired key-values"""
     records_to_expire = [search_records[0], search_records[2], search_records[3]]
@@ -142,7 +155,7 @@ def test_search_after_expiration(store: Store):
         assert store.search(term=term, skip=0, limit=0) == expected
 
 
-@pytest.mark.parametrize("store", store_fixture)
+@pytest.mark.parametrize("store", searchable_store_fixture)
 def test_search_after_delete(store: Store):
     """Returns only existing key-values"""
     keys_to_delete = ["foo", "food", "bar", "band"]
@@ -173,7 +186,7 @@ def test_search_after_delete(store: Store):
         assert store.search(term=term, skip=0, limit=0) == expected
 
 
-@pytest.mark.parametrize("store", store_fixture)
+@pytest.mark.parametrize("store", searchable_store_fixture)
 def test_search_after_clear(store: Store):
     """Returns an empty list when search is called after clear"""
     terms = [

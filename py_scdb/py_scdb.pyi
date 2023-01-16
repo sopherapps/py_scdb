@@ -34,6 +34,10 @@ class Store:
                                 Compaction is important because it reclaims this space and reduces the size
                                 of the database file.
                                 Default: 3600s (1 hour)
+    :param is_search_enabled: Whether the search capability of the store is enabled.
+                              Note that when search is enabled, `set`, `delete`, `clear`, `compact`
+                              operations become slower.
+                              Default: False
     """
 
     def __init__(
@@ -43,6 +47,7 @@ class Store:
         redundant_blocks: Optional[int] = None,
         pool_capacity: Optional[int] = None,
         compaction_interval: Optional[int] = None,
+        is_search_enabled: bool = False,
     ) -> None: ...
     def set(self, k: str, v: str, ttl: Optional[int] = None) -> None:
         """
@@ -135,6 +140,10 @@ class AsyncStore:
                                 Compaction is important because it reclaims this space and reduces the size
                                 of the database file.
                                 Default: 3600s (1 hour)
+    :param is_search_enabled: Whether the search capability of the store is enabled.
+                              Note that when search is enabled, `set`, `delete`, `clear`, `compact`
+                              operations become slower.
+                              Default: False
     """
 
     def __init__(
@@ -144,6 +153,7 @@ class AsyncStore:
         redundant_blocks: Optional[int] = None,
         pool_capacity: Optional[int] = None,
         compaction_interval: Optional[int] = None,
+        is_search_enabled: bool = False,
     ) -> None: ...
     async def set(self, k: str, v: str, ttl: Optional[int] = None) -> None:
         """
