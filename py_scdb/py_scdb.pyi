@@ -64,11 +64,15 @@ class Store:
         :param k: the key as a UTF-8 string
         :return: the value if it exists or None if it doesn't
         """
-    def search(
-        self, term: str, skip: Optional[int] = None, limit: Optional[int] = None
-    ) -> List[Tuple[str, str]]:
+    def search(self, term: str, skip: int = 0, limit: int = 0) -> List[Tuple[str, str]]:
         """
         Finds all key-values whose keys start with the substring `term`.
+
+        It skips the first `skip` (default: 0) number of results and returns not more than
+        `limit` (default: 0) number of items. This is to avoid using up more memory than can be handled by the
+        host machine.
+        If `limit` is 0, all items are returned since it would make no sense for someone to search
+        for zero items.
 
         :param term: the starting substring to check all keys against
         :param skip: the number of the first matched key-value pairs to skip
@@ -171,10 +175,16 @@ class AsyncStore:
         :return: the value if it exists or None if it doesn't
         """
     async def search(
-        self, term: str, skip: Optional[int] = None, limit: Optional[int] = None
+        self, term: str, skip: int = 0, limit: int = 0
     ) -> List[Tuple[str, str]]:
         """
         Finds all key-values whose keys start with the substring `term`.
+
+        It skips the first `skip` (default: 0) number of results and returns not more than
+        `limit` (default: 0) number of items. This is to avoid using up more memory than can be handled by the
+        host machine.
+        If `limit` is 0, all items are returned since it would make no sense for someone to search
+        for zero items.
 
         :param term: the starting substring to check all keys against
         :param skip: the number of the first matched key-value pairs to skip
