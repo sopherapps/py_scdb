@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2023-02-28
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Fixed the docstring for `store.search` in the stub file to show right annotations for `skip` and `limit`
+
 ## [0.2.0] - 2023-01-16
 
 ### Added
@@ -16,6 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Changed the `Store()` and `AsyncStore()` signatures, replacing `max_index_key_len` option with `is_search_enabled`.
 - Permanently set the maximum index key length to 3
 - Changed benchmarks to compare operations when search is enabled to when search is disabled.
+
+### Fixed
 
 ## [0.1.1] - 2023-01-14
 
