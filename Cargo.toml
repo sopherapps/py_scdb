@@ -1,6 +1,6 @@
 [package]
 name = "py_scdb"
-version = "0.2.0"
+version = "0.2.2"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -10,6 +10,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.17", features = ["extension-module"] }
-scdb = "0.2"
+scdb = "0.2.1"
 pyo3-asyncio = { version = "0.17", features = ["attributes", "async-std-runtime"] }
 async-std = "1.12"

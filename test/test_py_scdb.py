@@ -68,6 +68,17 @@ def test_get_existing_key(store: Store):
 
 
 @pytest.mark.parametrize("store", store_fixture)
+def test_get_value_that_is_empty_string(store: Store):
+    """Does not error with out of bounds when the value is an empty string thanks to scdb v0.2.1"""
+    key = "foo"
+    value = ""
+
+    fill_store(store=store, data=[(key, value)])
+    for _ in range(3):
+        assert store.get(k=key) == value
+
+
+@pytest.mark.parametrize("store", store_fixture)
 def test_search_disabled(store: Store):
     """Raises exception when a search-disabled store's search method is called"""
     fill_store(store=store, data=search_records)

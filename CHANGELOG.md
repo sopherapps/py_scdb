@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.2] - 2023-03-06
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Fixed Slice Out of bounds Error when Retrieving Value that is an empty string.
+
 ## [0.2.1] - 2023-02-28
 
 ### Added

@@ -94,6 +94,18 @@ async def test_get_existing_key(store: AsyncStore):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("store", async_store_fixture)
+async def test_get_value_that_si_empty_string(store: AsyncStore):
+    """Does not error with out of bounds when the value is an empty string thanks to scdb v0.2.1"""
+    key = "foo"
+    value = ""
+
+    await fill_async_store(store=store, data=[(key, value)])
+    for _ in range(2):
+        assert (await store.get(k=key)) == value
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("store", async_store_fixture)
 async def test_get_non_existing_key(store: AsyncStore):
     """Returns the None for a key that does not exist"""
     assert (await store.get(k="some-random-value")) is None
